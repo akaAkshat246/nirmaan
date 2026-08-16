@@ -1,201 +1,221 @@
 import React from 'react';
 import { 
+  Building2, 
   Trash2, 
   AlertTriangle, 
   Truck, 
-  Clock, 
   Activity, 
-  Flame, 
+  ArrowUpRight, 
+  Sparkles, 
+  CheckCircle2, 
+  Clock, 
+  Radio, 
   ShieldAlert, 
-  TrendingDown, 
-  Sparkles,
-  ArrowUpRight,
-  Sun,
-  Wind,
-  CheckCircle2,
-  Layers,
-  Radio
+  TrendingUp, 
+  Trees,
+  Flame,
+  Zap,
+  Users
 } from 'lucide-react';
-import CityMap from '../map/CityMap';
+import DelhiLeafletMap from '../map/DelhiLeafletMap';
 
 export default function OverviewView({ 
   bins = [], 
   activeRoute = null, 
   onSelectBin = () => {}, 
   onTriggerSurge = () => {}, 
-  onCollectBin = () => {},
+  onCollectBin = () => {}, 
   onNavigateTab = () => {} 
 }) {
-  const total = bins.length;
-  const critical = bins.filter(b => b.status === 'CRITICAL' || b.currentFill >= 90);
-  const high = bins.filter(b => b.status === 'HIGH');
-  const moderate = bins.filter(b => b.status === 'MODERATE');
-  const normal = bins.filter(b => b.status === 'NORMAL');
+  const totalBins = bins.length || 10;
+  const criticalBins = bins.filter(b => b.status === 'CRITICAL' || b.currentFill >= 90);
+  const highBins = bins.filter(b => b.status === 'HIGH' || (b.currentFill >= 75 && b.currentFill < 90));
+  const normalBins = bins.filter(b => b.status === 'NORMAL' || b.currentFill < 50);
+
+  const avgFill = totalBins > 0
+    ? Math.round(bins.reduce((acc, b) => acc + (b.currentFill || 0), 0) / totalBins)
+    : 64;
 
   return (
     <div className="space-y-8">
       
-      {/* 1. Hero Municipal Banner */}
-      <div className="relative overflow-hidden rounded-3xl glass-panel-luxury p-6 sm:p-8 border border-white/10 shadow-2xl">
-        {/* Background Ambient Glow Spheres */}
-        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 left-1/3 -mb-8 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      {/* 1. Executive Municipal Header Banner */}
+      <div className="glass-panel-luxury rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl relative overflow-hidden">
+        {/* Subtle Ambient Background Mesh */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="relative z-10 flex flex-wrap items-center justify-between gap-6">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-2.5 mb-2">
-              <span className="flex items-center gap-1.5 text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                <Radio className="w-3 h-3 text-emerald-400 animate-pulse" />
-                <span>MUNICIPAL COMMAND CENTER</span>
+          <div className="space-y-2 max-w-2xl">
+            <div className="flex items-center gap-2.5">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-mono font-bold tracking-wider">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                LIVE MUNICIPAL TELEMETRY
               </span>
-              <span className="text-xs text-slate-400 font-mono hidden sm:inline">Sector 1–21 Grid</span>
+              <span className="text-xs font-mono text-slate-400">
+                NCT of Delhi • Central Sanitation Command
+              </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-heading font-extrabold text-white tracking-tight leading-tight">
-              AI Waste Intelligence & <br className="hidden sm:inline" />
-              <span className="gradient-text-emerald">Predictive Collection OS</span>
+            <h1 className="text-3xl sm:text-4xl font-heading font-black text-white tracking-tight">
+              Delhi Smart Sanitation & <span className="gradient-text-emerald">Waste Intelligence OS</span>
             </h1>
 
-            <p className="text-sm text-slate-300 mt-2.5 leading-relaxed">
-              Real-time ultrasonic bin telemetry, computer vision segregation, time-series overflow prediction, and graph shortest-path routing for sustainable smart cities.
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Real-time ultrasonic capacity monitoring, predictive overflow forecasting, crowdsourced grievance triage, and Dijkstra shortest-path fleet routing across Delhi zones.
             </p>
           </div>
 
-          {/* Quick Metrics Badge Group */}
+          {/* Quick Action Navigation Buttons */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <div className="p-4 rounded-2xl bg-dark-900/90 border border-white/[0.08] shadow-inner text-center">
-              <span className="text-[10px] font-mono uppercase text-slate-400 block">Fleet Optimization</span>
-              <span className="text-xl font-heading font-black text-emerald-400">94.8%</span>
-              <span className="text-[10px] text-slate-500 font-mono">Dijkstra Routing</span>
-            </div>
+            <button
+              onClick={() => onNavigateTab('routing')}
+              className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 text-cyan-300 font-heading font-bold text-xs shadow-glow-cyan transition-all transform hover:scale-[1.02]"
+            >
+              <Truck className="w-4 h-4" />
+              <span>DSA Fleet Optimizer</span>
+            </button>
 
-            <div className="p-4 rounded-2xl bg-dark-900/90 border border-white/[0.08] shadow-inner text-center">
-              <span className="text-[10px] font-mono uppercase text-slate-400 block">Daily CO₂ Offset</span>
-              <span className="text-xl font-heading font-black text-cyan-400">+620 kg</span>
-              <span className="text-[10px] text-slate-500 font-mono">Circular Scraps</span>
-            </div>
+            <button
+              onClick={() => onNavigateTab('hotspots')}
+              className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-orange-500/15 hover:bg-orange-500/25 border border-orange-500/40 text-orange-300 font-heading font-bold text-xs shadow-glow-amber transition-all transform hover:scale-[1.02]"
+            >
+              <Flame className="w-4 h-4" />
+              <span>Hotspot Warning</span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* 2. Top-Level KPI Cards Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      {/* 2. Executive KPI Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         
-        {/* Card 1: Total Bins */}
-        <div className="glass-panel-luxury rounded-2xl p-5 border border-white/[0.08] hover:border-emerald-500/30 transition-all duration-300 group">
+        {/* Total Bins */}
+        <div className="glass-panel-luxury rounded-2xl p-5 border border-white/[0.08] hover:border-emerald-500/30 transition-all duration-300">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-mono uppercase tracking-wider text-slate-400">Smart Bins</span>
-            <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
-              <Trash2 className="w-4 h-4" />
+            <span className="text-slate-400 text-xs font-mono uppercase tracking-wider">Active Delhi Grid</span>
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <Building2 className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-3xl font-heading font-black text-white">{total}</div>
-          <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 font-mono mt-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-            <span>100% Sensors Online</span>
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-heading font-black text-white">{totalBins}</span>
+            <span className="text-xs text-slate-400 font-mono">Smart Nodes</span>
           </div>
+          <span className="text-[11px] text-emerald-400 font-mono block mt-1.5 flex items-center gap-1">
+            <CheckCircle2 className="w-3 h-3" /> 100% Sensor Pulse Sync
+          </span>
         </div>
 
-        {/* Card 2: Critical Bins (>90%) */}
-        <div className={`rounded-2xl p-5 border transition-all duration-300 group ${
-          critical.length > 0 ? 'glass-panel-critical-luxury' : 'glass-panel-luxury border-white/[0.08]'
+        {/* Critical Overflow Alerts */}
+        <div className={`rounded-2xl p-5 border transition-all duration-300 ${
+          criticalBins.length > 0
+            ? 'glass-panel-critical-luxury'
+            : 'glass-panel-luxury border-white/[0.08]'
         }`}>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-mono uppercase tracking-wider text-slate-400">Critical (&gt;90%)</span>
-            <div className="w-9 h-9 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform">
+            <span className="text-slate-400 text-xs font-mono uppercase tracking-wider">Critical Alerts</span>
+            <div className="w-8 h-8 rounded-xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 shadow-glow-red">
               <ShieldAlert className="w-4 h-4" />
             </div>
           </div>
-          <div className={`text-3xl font-heading font-black ${critical.length > 0 ? 'text-red-400 animate-pulse' : 'text-white'}`}>
-            {critical.length}
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-heading font-black text-red-400">{criticalBins.length}</span>
+            <span className="text-xs text-red-300 font-mono">Bins &gt; 90%</span>
           </div>
-          <div className="flex items-center gap-1.5 text-[11px] text-red-400 font-mono mt-1.5">
-            <span>{critical.length > 0 ? 'Immediate Action' : 'All Levels Safe'}</span>
-          </div>
+          <span className="text-[11px] text-red-300 font-mono block mt-1.5 font-bold">
+            {criticalBins.length > 0 ? '⚠ Immediate Dispatch Req' : '✓ Zero Overflows'}
+          </span>
         </div>
 
-        {/* Card 3: High Priority Bins (75-90%) */}
-        <div className="glass-panel-luxury rounded-2xl p-5 border border-white/[0.08] hover:border-orange-500/30 transition-all duration-300 group">
+        {/* High Risk Queue */}
+        <div className="glass-panel-luxury rounded-2xl p-5 border border-white/[0.08] hover:border-amber-500/30 transition-all duration-300">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-mono uppercase tracking-wider text-slate-400">High (75–90%)</span>
-            <div className="w-9 h-9 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 group-hover:scale-110 transition-transform">
-              <AlertTriangle className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="text-3xl font-heading font-black text-orange-400">{high.length}</div>
-          <div className="flex items-center gap-1.5 text-[11px] text-orange-400 font-mono mt-1.5">
-            <span>Priority Queue Stage</span>
-          </div>
-        </div>
-
-        {/* Card 4: Fleet Vehicles Active */}
-        <div className="glass-panel-luxury rounded-2xl p-5 border border-white/[0.08] hover:border-cyan-500/30 transition-all duration-300 group">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-mono uppercase tracking-wider text-slate-400">Fleet Deployed</span>
-            <div className="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
-              <Truck className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="text-3xl font-heading font-black text-cyan-300">4 / 4</div>
-          <div className="flex items-center gap-1.5 text-[11px] text-cyan-400 font-mono mt-1.5">
-            <span>VRP Routing Active</span>
-          </div>
-        </div>
-
-        {/* Card 5: Response Time Benchmark */}
-        <div className="glass-panel-luxury rounded-2xl p-5 border border-white/[0.08] hover:border-emerald-500/30 transition-all duration-300 group col-span-2 sm:col-span-2 lg:col-span-1">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-mono uppercase tracking-wider text-slate-400">Avg Collection ETA</span>
-            <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+            <span className="text-slate-400 text-xs font-mono uppercase tracking-wider">High Risk Queue</span>
+            <div className="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
               <Clock className="w-4 h-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-heading font-black text-emerald-400">4.7h</span>
-            <span className="text-xs text-slate-500 font-mono line-through">8.2h</span>
+            <span className="text-3xl font-heading font-black text-amber-300">{highBins.length}</span>
+            <span className="text-xs text-slate-400 font-mono">Bins (75-90%)</span>
           </div>
-          <div className="text-[11px] text-emerald-400 font-mono mt-1.5">
-            ↓ 42.6% Turnaround Time
+          <span className="text-[11px] text-slate-400 font-mono block mt-1.5">
+            ETA to overflow: ~2.3h
+          </span>
+        </div>
+
+        {/* Active Fleet Dispatched */}
+        <div className="glass-panel-luxury rounded-2xl p-5 border border-white/[0.08] hover:border-cyan-500/30 transition-all duration-300">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-slate-400 text-xs font-mono uppercase tracking-wider">Active Fleet</span>
+            <div className="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+              <Truck className="w-4 h-4" />
+            </div>
           </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-heading font-black text-cyan-300">3</span>
+            <span className="text-xs text-slate-400 font-mono">Vehicles En-Route</span>
+          </div>
+          <span className="text-[11px] text-cyan-400 font-mono block mt-1.5">
+            DL-01-EA-4092 Active
+          </span>
+        </div>
+
+        {/* CO2 Footprint Averted */}
+        <div className="glass-panel-luxury rounded-2xl p-5 border border-white/[0.08] hover:border-emerald-500/30 transition-all duration-300">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-slate-400 text-xs font-mono uppercase tracking-wider">Carbon Cut</span>
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <Trees className="w-4 h-4" />
+            </div>
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-heading font-black text-emerald-400">-29.6%</span>
+          </div>
+          <span className="text-[11px] text-emerald-400 font-mono block mt-1.5">
+            18.6 Tons CO₂ saved / mo
+          </span>
         </div>
 
       </div>
 
-      {/* 3. Real-time Emergency Alert Banner if Critical */}
-      {critical.length > 0 && (
-        <div className="relative overflow-hidden rounded-2xl p-5 glass-panel-critical-luxury border border-red-500/50 flex flex-wrap items-center justify-between gap-4 animate-in fade-in slide-in-from-top-3 duration-300">
+      {/* 3. Real-Time Critical Escalation Banner (If Any Critical Bins) */}
+      {criticalBins.length > 0 && (
+        <div className="p-5 rounded-3xl bg-red-950/70 border border-red-500/60 shadow-glow-red flex flex-wrap items-center justify-between gap-4 animate-in fade-in duration-300">
           <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-2xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 animate-pulse flex-shrink-0">
-              <ShieldAlert className="w-6 h-6" />
+            <div className="w-12 h-12 rounded-2xl bg-red-500/20 border border-red-500/50 flex items-center justify-center text-red-400 animate-pulse">
+              <AlertTriangle className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 text-[10px] font-mono font-bold uppercase border border-red-500/40">
-                  CRITICAL TELEMETRY ALERT
+                <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-red-500/30 text-red-300 border border-red-500/50">
+                  CRITICAL TELEMETRY ESCALATION
                 </span>
-                <span className="text-xs text-slate-400 font-mono">{critical[0].sector}</span>
+                <span className="text-xs text-red-400 font-mono">NCT Delhi Grid Alarm</span>
               </div>
-              <h4 className="text-base font-heading font-bold text-white mt-1">
-                {critical[0].bin_code} ({critical[0].name}) reached {critical[0].currentFill}% Fill Level!
+              <h4 className="text-base font-heading font-black text-white mt-1">
+                {criticalBins[0].bin_code} ({criticalBins[0].name}) reached {criticalBins[0].currentFill}% Capacity
               </h4>
-              <p className="text-xs text-slate-300 mt-0.5">
-                AI predicts overflow in <span className="font-mono text-red-400 font-bold">~{critical[0].overflowEtaHours} hours</span>. Priority Queue has queued this bin at Rank #1 for automated collection.
+              <p className="text-xs text-red-200/90 font-mono">
+                AI predicts overflow in <strong className="text-white">~{criticalBins[0].overflowEtaHours} hours</strong> (Velocity: {criticalBins[0].fillRatePerHour}%/hr).
               </p>
             </div>
           </div>
 
-          <button
-            onClick={() => onNavigateTab('routing')}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-400 hover:to-orange-400 text-white font-heading font-bold text-xs shadow-glow-red transition-all transform hover:scale-[1.02]"
-          >
-            <span>Dispatch Optimized Route</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => onCollectBin(criticalBins[0].id)}
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-heading font-bold text-xs shadow-glow-red transition-all transform hover:scale-[1.02]"
+            >
+              Dispatch Collection Vehicle Now
+            </button>
+          </div>
         </div>
       )}
 
-      {/* 4. Vector GIS City Map & Real-time Node Telematics */}
-      <CityMap
+      {/* 4. Real Interactive Leaflet Delhi Map */}
+      <DelhiLeafletMap
         bins={bins}
         activeRoute={activeRoute}
         onSelectBin={onSelectBin}

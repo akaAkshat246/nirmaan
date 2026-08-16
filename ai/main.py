@@ -1,6 +1,7 @@
 """
 NIRMAAN AI Inference Microservice (FastAPI)
-Exposes endpoints for Waste Image Classification, Smart Bin Overflow Prediction, and Hotspot Risk Evaluation.
+Exposes endpoints for Multi-Object Waste Classification, Quality Validation,
+Smart Bin Overflow Prediction, and Delhi Municipal Hotspot Intelligence.
 """
 
 from fastapi import FastAPI
@@ -8,14 +9,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, Dict, Any, List
 
-from inference.classifier import classify_waste_image
+from inference.multi_classifier import classify_waste_multiobject
+from inference.image_quality import check_image_quality
 from inference.overflow_model import predict_bin_overflow
 from inference.hotspot_model import predict_hotspot_risk
 
 app = FastAPI(
-    title="NIRMAAN AI Microservice",
-    description="Vision classification, overflow forecasting, and municipal hotspot intelligence",
-    version="1.0.0"
+    title="NIRMAAN AI Microservice (Delhi Waste OS)",
+    description="Multi-object vision classification, overflow forecasting, and municipal hotspot intelligence",
+    version="2.0.0"
 )
 
 app.add_middleware(
@@ -36,29 +38,40 @@ class ClassifyRequest(BaseModel):
 
 
 class BinTelemetryRequest(BaseModel):
-    id: Optional[str] = "BIN-104"
+    id: Optional[str] = "BIN-DL-104"
     currentFill: float = 68.0
-    fillRatePerHour: Optional[float] = 4.5
+    fillRatePerHour: Optional[float] = 4.8
     history: Optional[List[Dict[str, Any]]] = None
 
 
 class HotspotRequest(BaseModel):
-    sectorName: Optional[str] = "Commercial Market Square"
+    sectorName: Optional[str] = "Karol Bagh"
     historicalDailyLoadKg: Optional[List[float]] = None
 
 
 @app.get("/")
 def root():
     return {
-        "service": "NIRMAAN AI Inference Engine",
-        "status": "HEALTHY",
-        "models_loaded": ["MobileNetV3-WasteSeg", "Time-Series-Overflow-Regr", "MultiFactor-Hotspot-Forecaster"]
+        "service": "NIRMAAN Delhi AI Vision & Telematics Engine",
+        "version": "2.0.0",
+        "status": "OPERATIONAL",
+        "models_loaded": [
+            "MobileNetV3-MultiObject-WasteSeg",
+            "Image-Quality-Analyzer",
+            "Time-Series-Overflow-Regr",
+            "Delhi-Hotspot-Forecaster"
+        ]
     }
 
 
 @app.post("/api/classify")
 def classify(req: ClassifyRequest):
-    return classify_waste_image(req.model_dump())
+    return classify_waste_multiobject(req.model_dump())
+
+
+@app.post("/api/quality-check")
+def quality_check(req: ClassifyRequest):
+    return check_image_quality(req.model_dump())
 
 
 @app.post("/api/predict-overflow")
