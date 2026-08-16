@@ -41,103 +41,110 @@ export default function AnalyticsView() {
     : [];
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8">
       
       {/* Header Banner */}
-      <div className="glass-panel rounded-2xl p-6 bg-slate-950/80 border border-slate-800">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="glass-panel-luxury rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="relative z-10 flex flex-wrap items-center justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                MODULE 7 • MUNICIPAL METRICS
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/30">
+                MODULE 7 • ESG SUSTAINABILITY
               </span>
-              <h1 className="text-2xl font-black text-slate-100 tracking-tight">Executive Analytics & ESG Impact</h1>
+              <span className="text-xs font-mono text-slate-400">Carbon Offset & Turnaround Ledger</span>
             </div>
-            <p className="text-sm text-slate-400 mt-1">
-              Real-time monitoring of waste stream segregation, carbon offsets, and collection turnaround efficiency.
+            <h1 className="text-3xl font-heading font-black text-white tracking-tight">
+              Executive Analytics & <span className="gradient-text-emerald">ESG Impact Metrics</span>
+            </h1>
+            <p className="text-sm text-slate-300 mt-2 max-w-2xl leading-relaxed">
+              Quantifiable environmental savings, AI waste composition stream breakdown, and real-time municipal telemetry audit ledger.
             </p>
           </div>
 
-          <div className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-emerald-400 flex items-center gap-2">
-            <Award className="w-4 h-4 text-emerald-400" />
+          <div className="px-5 py-3 rounded-2xl bg-dark-900/90 border border-emerald-500/30 text-xs font-heading font-bold text-emerald-400 flex items-center gap-2.5 shadow-glow-sm">
+            <Award className="w-5 h-5 text-emerald-400" />
             <span>420 Green ESG Credits Accrued</span>
           </div>
         </div>
       </div>
 
-      {/* High-Level Impact Metric Cards */}
+      {/* Impact Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
-        <div className="glass-panel rounded-2xl p-5 bg-slate-950/80 border border-slate-800">
+        <div className="glass-panel-luxury rounded-2xl p-5 border border-white/[0.08] hover:border-cyan-500/30 transition-all duration-300">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-slate-400 font-medium">Avg Collection Turnaround</span>
+            <span className="text-xs text-slate-400 font-mono uppercase tracking-wider">Avg Turnaround</span>
             <Clock className="w-4 h-4 text-cyan-400" />
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-black font-mono text-cyan-300">4.7h</span>
-            <span className="text-xs text-slate-400 font-mono line-through">8.2h</span>
+            <span className="text-3xl font-heading font-black text-cyan-300">4.7h</span>
+            <span className="text-xs text-slate-500 font-mono line-through">8.2h</span>
           </div>
-          <span className="text-[11px] text-emerald-400 font-medium block mt-1">↓ 42.6% faster response</span>
+          <span className="text-[11px] text-emerald-400 font-mono block mt-1.5">↓ 42.6% response time</span>
         </div>
 
-        <div className="glass-panel rounded-2xl p-5 bg-slate-950/80 border border-slate-800">
+        <div className="glass-panel-luxury rounded-2xl p-5 border border-white/[0.08] hover:border-amber-500/30 transition-all duration-300">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-slate-400 font-medium">Fuel Consumption Cut</span>
+            <span className="text-xs text-slate-400 font-mono uppercase tracking-wider">Fuel Consumption</span>
             <Fuel className="w-4 h-4 text-amber-400" />
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-black font-mono text-amber-300">27.4%</span>
+            <span className="text-3xl font-heading font-black text-amber-300">27.4%</span>
           </div>
-          <span className="text-[11px] text-slate-400 block mt-1">Dijkstra VRP Optimization</span>
+          <span className="text-[11px] text-slate-400 font-mono block mt-1.5">Dijkstra VRP Optimization</span>
         </div>
 
-        <div className="glass-panel rounded-2xl p-5 bg-slate-950/80 border border-slate-800">
+        <div className="glass-panel-luxury rounded-2xl p-5 border border-white/[0.08] hover:border-emerald-500/30 transition-all duration-300">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-slate-400 font-medium">CO₂ Averted / Month</span>
+            <span className="text-xs text-slate-400 font-mono uppercase tracking-wider">CO₂ Averted / Month</span>
             <Trees className="w-4 h-4 text-emerald-400" />
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-black font-mono text-emerald-400">18.6 <span className="text-xs">Tons</span></span>
+            <span className="text-3xl font-heading font-black text-emerald-400">18.6 <span className="text-sm font-mono">Tons</span></span>
           </div>
-          <span className="text-[11px] text-slate-400 block mt-1">Equivalent to 840 trees planted</span>
+          <span className="text-[11px] text-slate-400 font-mono block mt-1.5">Equiv to 840 trees planted</span>
         </div>
 
-        <div className="glass-panel rounded-2xl p-5 bg-slate-950/80 border border-slate-800">
+        <div className="glass-panel-luxury rounded-2xl p-5 border border-white/[0.08] hover:border-purple-500/30 transition-all duration-300">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-slate-400 font-medium">Overflows Prevented</span>
+            <span className="text-xs text-slate-400 font-mono uppercase tracking-wider">Overflows Prevented</span>
             <ShieldCheck className="w-4 h-4 text-purple-400" />
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-black font-mono text-purple-300">142</span>
+            <span className="text-3xl font-heading font-black text-purple-300">142</span>
           </div>
-          <span className="text-[11px] text-slate-400 block mt-1">Preemptive ETA dispatch</span>
+          <span className="text-[11px] text-slate-400 font-mono block mt-1.5">Preemptive ETA dispatch</span>
         </div>
 
       </div>
 
-      {/* Visual Charts & Telematics Audit Log */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Visual Composition Chart & Realtime Audit Ledger */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Left: Waste Composition Pie Chart (6 cols) */}
-        <div className="lg:col-span-6 glass-panel rounded-2xl p-6 bg-slate-950/90 border border-slate-800">
+        {/* Left: Waste Composition Donut Chart (6 cols) */}
+        <div className="lg:col-span-6 glass-panel-luxury rounded-3xl p-6 sm:p-7 border border-white/10 shadow-2xl">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-base font-bold text-slate-100">Municipal Waste Composition</h3>
-              <p className="text-xs text-slate-400">AI Vision Classified Material Distribution</p>
+              <h3 className="text-lg font-heading font-bold text-white">Municipal Waste Composition</h3>
+              <p className="text-xs text-slate-400 font-mono">AI Vision Material Breakdown</p>
             </div>
-            <PieIcon className="w-5 h-5 text-emerald-400" />
+            <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <PieIcon className="w-4 h-4" />
+            </div>
           </div>
 
-          <div className="h-64 w-full">
+          <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={compositionData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={60}
-                  outerRadius={85}
-                  paddingAngle={4}
+                  innerRadius={70}
+                  outerRadius={95}
+                  paddingAngle={5}
                   dataKey="value"
                 >
                   {compositionData.map((entry, index) => (
@@ -145,14 +152,14 @@ export default function AnalyticsView() {
                   ))}
                 </Pie>
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }}
+                  contentStyle={{ backgroundColor: '#080e1a', borderColor: '#233867', borderRadius: '12px', fontSize: '12px' }}
                   formatter={(val) => [`${val}%`, 'Composition']}
                 />
                 <Legend 
                   layout="horizontal" 
                   verticalAlign="bottom" 
                   align="center"
-                  wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }}
+                  wrapperStyle={{ fontSize: '11px', paddingTop: '16px' }}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -160,36 +167,37 @@ export default function AnalyticsView() {
         </div>
 
         {/* Right: Live Telematics Audit Trail (6 cols) */}
-        <div className="lg:col-span-6 glass-panel rounded-2xl p-6 bg-slate-950/90 border border-slate-800 flex flex-col justify-between">
+        <div className="lg:col-span-6 glass-panel-luxury rounded-3xl p-6 sm:p-7 border border-white/10 shadow-2xl flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-cyan-400" />
+                <h3 className="text-lg font-heading font-bold text-white flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-cyan-400" />
                   <span>Real-time System Audit Trail</span>
                 </h3>
-                <p className="text-xs text-slate-400">Chronological feed of sensor spikes, AI scans, and routing events</p>
+                <p className="text-xs text-slate-400 font-mono">Live feed of sensor pulses, AI inferences, and routing events</p>
               </div>
             </div>
 
-            <div className="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+            <div className="space-y-3 max-h-76 overflow-y-auto pr-1">
               {auditLogs.slice(0, 8).map((log) => (
                 <div 
                   key={log.id} 
-                  className="p-2.5 rounded-xl bg-slate-900/60 border border-slate-800/80 text-xs font-mono"
+                  className="p-3 rounded-2xl bg-dark-900/60 border border-white/[0.06] text-xs font-mono"
                 >
                   <div className="flex items-center justify-between text-slate-400 text-[10px] mb-1">
-                    <span className="font-bold text-cyan-400">{log.action}</span>
+                    <span className="font-bold text-cyan-300 font-heading">{log.action}</span>
                     <span>{log.timestamp}</span>
                   </div>
-                  <p className="text-slate-200 text-[11px] leading-relaxed font-sans">{log.details}</p>
+                  <p className="text-slate-200 text-xs font-sans leading-relaxed">{log.details}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="text-[10px] font-mono text-slate-500 pt-3 border-t border-slate-800 mt-2">
-            Telemetry pulse active • Node backend & AI sync OK
+          <div className="text-[10px] font-mono text-slate-500 pt-3 border-t border-white/[0.08] mt-3 flex items-center justify-between">
+            <span>Mesh Telemetry: 15s Pulse</span>
+            <span className="text-emerald-400">Node API & AI Sync 100% OK</span>
           </div>
         </div>
 

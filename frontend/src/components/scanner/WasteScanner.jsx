@@ -9,46 +9,48 @@ import {
   Info, 
   Trash2, 
   ShieldCheck,
-  RefreshCw
+  RefreshCw,
+  Scan,
+  TrendingUp
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { api } from '../../services/api';
 
 const SAMPLE_ITEMS = [
   {
-    name: 'Plastic Water Bottle',
+    name: 'Plastic Beverage Bottle',
     category: 'plastic',
-    tag: 'PET Beverage Bottle',
-    img: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?w=500&q=80',
+    tag: 'PET Clear Bottle',
+    img: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?w=600&q=80',
     desc: 'Clear PET plastic bottle with cap'
   },
   {
-    name: 'Aluminum Beverage Can',
+    name: 'Aluminum Soda Can',
     category: 'metal',
-    tag: 'Soda Can',
-    img: 'https://images.unsplash.com/photo-1534057302553-998018bc177e?w=500&q=80',
-    desc: 'Crushed aluminium beverage container'
+    tag: 'Beverage Can',
+    img: 'https://images.unsplash.com/photo-1534057302553-998018bc177e?w=600&q=80',
+    desc: 'High-grade aluminum beverage can'
   },
   {
-    name: 'Organic Fruit Scraps',
+    name: 'Organic Kitchen Food Scraps',
     category: 'organic',
-    tag: 'Kitchen Waste',
-    img: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=500&q=80',
-    desc: 'Biodegradable vegetable and fruit peels'
+    tag: 'Food Waste',
+    img: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&q=80',
+    desc: 'Biodegradable fruit and kitchen waste'
   },
   {
-    name: 'Cardboard Shipping Box',
+    name: 'Corrugated Cardboard Box',
     category: 'paper',
-    tag: 'Cardboard Box',
-    img: 'https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=500&q=80',
-    desc: 'Corrugated recyclable packaging'
+    tag: 'Packaging Box',
+    img: 'https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=600&q=80',
+    desc: 'Recyclable packaging box'
   },
   {
-    name: 'E-Waste / Circuit Board',
+    name: 'Electronic PCB Circuit Board',
     category: 'ewaste',
-    tag: 'Circuit PCB',
-    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80',
-    desc: 'Electronic motherboard & components'
+    tag: 'E-Waste Hardware',
+    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80',
+    desc: 'Electronic circuit board with precious metals'
   }
 ];
 
@@ -56,7 +58,6 @@ export default function WasteScanner() {
   const [selectedSample, setSelectedSample] = useState(SAMPLE_ITEMS[0]);
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState(null);
-  const [customImage, setCustomImage] = useState(null);
 
   const handleClassify = async (item = selectedSample) => {
     setAnalyzing(true);
@@ -71,12 +72,11 @@ export default function WasteScanner() {
 
       setResult(response);
 
-      // Trigger reward confetti for recyclable items
       if (response && response.recyclable) {
         confetti({
-          particleCount: 50,
-          spread: 60,
-          origin: { y: 0.7 }
+          particleCount: 60,
+          spread: 70,
+          origin: { y: 0.6 }
         });
       }
     } catch (err) {
@@ -96,9 +96,8 @@ export default function WasteScanner() {
           category: file.name.toLowerCase().includes('plastic') ? 'plastic' : 'mixed',
           tag: file.name,
           img: reader.result,
-          desc: 'User uploaded custom waste image'
+          desc: 'User uploaded image'
         };
-        setCustomImage(reader.result);
         setSelectedSample(customItem);
         handleClassify(customItem);
       };
@@ -107,73 +106,90 @@ export default function WasteScanner() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8">
       
       {/* Header Banner */}
-      <div className="glass-panel rounded-2xl p-6 bg-slate-950/80 border border-slate-800">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="glass-panel-luxury rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="relative z-10 flex flex-wrap items-center justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-brand-500/20 text-brand-300 border border-brand-500/30">
-                MODULE 1
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                MODULE 1 • COMPUTER VISION
               </span>
-              <h1 className="text-2xl font-black text-slate-100 tracking-tight">AI Waste Classification & Value Estimator</h1>
+              <span className="text-xs font-mono text-slate-400">MobileNetV3 Edge Inference</span>
             </div>
-            <p className="text-sm text-slate-400 mt-1">
-              Computer vision segregates waste into 8 standard classes, recommends correct bins, and provides circular-economy scrap valuation in ₹.
+            <h1 className="text-3xl font-heading font-black text-white tracking-tight">
+              AI Waste Classifier & <span className="gradient-text-emerald">Scrap Valuation Terminal</span>
+            </h1>
+            <p className="text-sm text-slate-300 mt-2 max-w-2xl leading-relaxed">
+              Snap or upload waste images to trigger real-time neural segregation, dry/wet bin recommendation, carbon offset calculations, and circular-economy scrap pricing in ₹.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-            <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>MobileNetV3 Backbone</span>
-            </span>
+          <div className="flex items-center gap-2 text-xs font-mono text-slate-300 p-3 rounded-2xl bg-dark-900/90 border border-white/[0.08]">
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <span>8 Segregation Classes Active</span>
           </div>
         </div>
       </div>
 
       {/* Main Scanner Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Left: Image Feed & Selector (7 cols) */}
-        <div className="lg:col-span-7 space-y-4">
+        {/* Left: Viewfinder & Sample Gallery (7 cols) */}
+        <div className="lg:col-span-7 space-y-5">
           
-          {/* Main Visual Frame */}
-          <div className="glass-panel rounded-2xl p-5 bg-slate-950/90 border border-slate-800 relative">
-            <div className="relative w-full h-80 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 group flex items-center justify-center">
+          {/* Main Visual Viewfinder Frame */}
+          <div className="glass-panel-luxury rounded-3xl p-6 border border-white/10 shadow-2xl relative">
+            
+            {/* Viewfinder Header */}
+            <div className="flex items-center justify-between mb-3 text-xs font-mono text-slate-400">
+              <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
+                <Scan className="w-4 h-4" />
+                <span>OPTICAL VISION MATRIX</span>
+              </span>
+              <span>1080p • 60 FPS</span>
+            </div>
+
+            {/* Image Canvas with Optical Reticle */}
+            <div className="relative w-full h-88 rounded-2xl overflow-hidden bg-dark-900 border border-white/10 group flex items-center justify-center">
               <img
                 src={selectedSample.img}
                 alt={selectedSample.name}
-                className="w-full h-full object-cover object-center transition-all duration-300"
+                className="w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-105"
               />
 
-              {/* Scanning Overlay Animation */}
+              {/* Laser Scanning Animation when analyzing */}
               {analyzing && (
-                <div className="absolute inset-0 bg-brand-950/60 backdrop-blur-xs flex flex-col items-center justify-center">
-                  <div className="w-16 h-16 rounded-full border-4 border-emerald-400 border-t-transparent animate-spin mb-3"></div>
-                  <span className="text-sm font-mono font-bold text-emerald-300 animate-pulse">Running Neural Feature Extraction...</span>
-                  <span className="text-xs text-slate-400 mt-1 font-mono">MobileNetV3 Edge Vision Model</span>
+                <div className="absolute inset-0 bg-dark-950/70 backdrop-blur-xs flex flex-col items-center justify-center">
+                  <div className="w-20 h-20 rounded-full border-4 border-emerald-400 border-t-transparent animate-spin mb-4 shadow-glow-md"></div>
+                  <span className="text-base font-heading font-bold text-emerald-300 tracking-wide animate-pulse">
+                    Analyzing Feature Embeddings...
+                  </span>
+                  <span className="text-xs text-slate-400 font-mono mt-1">MobileNetV3 Edge Vision Model</span>
                 </div>
               )}
 
-              {/* Simulated AI Bounding Box when result is ready */}
+              {/* Simulated Holographic Bounding Box when result is ready */}
               {result && !analyzing && (
-                <div className="absolute inset-8 border-2 border-emerald-400 rounded-lg pointer-events-none animate-pulse-slow">
-                  <div className="absolute -top-7 left-2 bg-emerald-500 text-slate-950 font-mono text-[11px] font-bold px-2 py-0.5 rounded shadow">
-                    {result.category} • {(result.confidence * 100).toFixed(1)}%
+                <div className="absolute inset-10 border-2 border-emerald-400 rounded-xl pointer-events-none shadow-glow-md animate-in zoom-in-95 duration-300">
+                  <div className="absolute -top-8 left-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-dark-950 font-heading font-black text-xs px-3 py-1 rounded-lg shadow-lg">
+                    {result.category} • {(result.confidence * 100).toFixed(1)}% CONFIDENCE
                   </div>
-                  <div className="w-2 h-2 bg-emerald-400 absolute -top-1 -left-1"></div>
-                  <div className="w-2 h-2 bg-emerald-400 absolute -top-1 -right-1"></div>
-                  <div className="w-2 h-2 bg-emerald-400 absolute -bottom-1 -left-1"></div>
-                  <div className="w-2 h-2 bg-emerald-400 absolute -bottom-1 -right-1"></div>
+                  {/* Corner Reticle Markers */}
+                  <div className="w-3 h-3 bg-emerald-400 absolute -top-1.5 -left-1.5 rounded-xs"></div>
+                  <div className="w-3 h-3 bg-emerald-400 absolute -top-1.5 -right-1.5 rounded-xs"></div>
+                  <div className="w-3 h-3 bg-emerald-400 absolute -bottom-1.5 -left-1.5 rounded-xs"></div>
+                  <div className="w-3 h-3 bg-emerald-400 absolute -bottom-1.5 -right-1.5 rounded-xs"></div>
                 </div>
               )}
             </div>
 
-            {/* Scan Action Bar */}
-            <div className="flex items-center justify-between mt-4 gap-3">
-              <label className="cursor-pointer flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-semibold transition-all">
+            {/* Action Buttons */}
+            <div className="flex items-center justify-between mt-5 gap-3">
+              <label className="cursor-pointer flex items-center gap-2 px-5 py-3 rounded-2xl bg-dark-900 hover:bg-dark-850 text-slate-200 border border-white/10 text-xs font-heading font-semibold transition-all">
                 <UploadCloud className="w-4 h-4 text-cyan-400" />
                 <span>Upload Custom Photo</span>
                 <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
@@ -182,12 +198,12 @@ export default function WasteScanner() {
               <button
                 onClick={() => handleClassify(selectedSample)}
                 disabled={analyzing}
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/25 transition-all transform hover:scale-[1.01] active:scale-[0.99]"
+                className="flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 hover:from-emerald-400 hover:to-cyan-300 text-dark-950 font-heading font-black text-xs shadow-glow-md transition-all transform hover:scale-[1.02] active:scale-[0.98]"
               >
                 {analyzing ? (
                   <>
                     <RefreshCw className="w-4 h-4 animate-spin" />
-                    <span>Analyzing...</span>
+                    <span>Processing Neural Inference...</span>
                   </>
                 ) : (
                   <>
@@ -199,12 +215,12 @@ export default function WasteScanner() {
             </div>
           </div>
 
-          {/* Quick Sample Selector Palette */}
-          <div className="glass-panel rounded-2xl p-4 bg-slate-950/80 border border-slate-800">
-            <span className="text-xs font-mono uppercase tracking-wider text-slate-400 block mb-3">
-              Test Sample Gallery (Instant Switch for Demo):
+          {/* Test Sample Gallery Selector */}
+          <div className="glass-panel-luxury rounded-3xl p-5 border border-white/10 shadow-xl">
+            <span className="text-xs font-mono uppercase tracking-widest text-slate-400 block mb-3">
+              Instant Test Samples:
             </span>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
               {SAMPLE_ITEMS.map((item, idx) => (
                 <button
                   key={idx}
@@ -212,15 +228,15 @@ export default function WasteScanner() {
                     setSelectedSample(item);
                     handleClassify(item);
                   }}
-                  className={`p-2 rounded-xl text-left border transition-all ${
+                  className={`p-2.5 rounded-2xl text-left border transition-all duration-200 ${
                     selectedSample.name === item.name
-                      ? 'bg-brand-500/15 border-brand-500/50 shadow-sm'
-                      : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                      ? 'bg-emerald-500/15 border-emerald-500/50 shadow-glow-sm scale-[1.02]'
+                      : 'bg-dark-900/60 border-white/[0.06] hover:border-white/20'
                   }`}
                 >
-                  <img src={item.img} alt={item.name} className="w-full h-14 object-cover rounded-lg mb-1.5" />
-                  <span className="text-[11px] font-medium text-slate-200 block truncate">{item.name}</span>
-                  <span className="text-[9px] font-mono text-emerald-400 uppercase">{item.category}</span>
+                  <img src={item.img} alt={item.name} className="w-full h-16 object-cover rounded-xl mb-2" />
+                  <span className="text-[11px] font-heading font-bold text-white block truncate">{item.name}</span>
+                  <span className="text-[9px] font-mono text-emerald-400 uppercase font-bold">{item.category}</span>
                 </button>
               ))}
             </div>
@@ -228,85 +244,89 @@ export default function WasteScanner() {
 
         </div>
 
-        {/* Right: AI Analysis Results Card (5 cols) */}
+        {/* Right: AI Output Terminal (5 cols) */}
         <div className="lg:col-span-5">
           {result ? (
-            <div className="glass-panel rounded-2xl p-6 bg-slate-950/90 border border-slate-800 space-y-4">
+            <div className="glass-panel-luxury rounded-3xl p-6 sm:p-7 border border-white/10 shadow-2xl space-y-5 animate-in fade-in slide-in-from-bottom-3 duration-300">
               
-              {/* Classification Banner */}
-              <div>
+              {/* Classification Result Card */}
+              <div className="pb-4 border-b border-white/[0.08]">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Vision Detection Output</span>
-                  <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
+                  <span className="text-[10px] font-mono uppercase text-slate-400 tracking-widest">
+                    Neural Segregation Result
+                  </span>
+                  <span className="text-xs font-mono font-bold px-3 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-glow-sm">
                     {(result.confidence * 100).toFixed(1)}% Confidence
                   </span>
                 </div>
-                <h2 className="text-xl font-extrabold text-slate-100 mt-1">{result.category}</h2>
-                <p className="text-xs text-slate-400">{result.subCategory}</p>
+                <h2 className="text-2xl font-heading font-black text-white mt-1.5">{result.category}</h2>
+                <p className="text-xs text-slate-300 font-medium">{result.subCategory}</p>
               </div>
 
-              {/* Recommended Segregation Bin */}
+              {/* Recommended Municipal Bin */}
               <div 
-                className="p-4 rounded-xl border flex items-center justify-between"
+                className="p-5 rounded-2xl border flex items-center justify-between shadow-lg"
                 style={{ 
                   backgroundColor: `${result.binColorHex}15`, 
                   borderColor: `${result.binColorHex}40` 
                 }}
               >
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-wider block" style={{ color: result.binColorHex }}>
+                  <span className="text-[10px] font-mono uppercase tracking-widest block font-bold" style={{ color: result.binColorHex }}>
                     Recommended Municipal Bin
                   </span>
-                  <span className="text-base font-black text-slate-100">{result.recommendedBin}</span>
+                  <span className="text-lg font-heading font-black text-white mt-0.5 block">{result.recommendedBin}</span>
                 </div>
                 <div 
-                  className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-2xl"
                   style={{ backgroundColor: result.binColorHex }}
                 >
-                  <Trash2 className="w-5 h-5 text-white" />
+                  <Trash2 className="w-6 h-6 text-white" />
                 </div>
               </div>
 
-              {/* Economic & Circular Economy Value */}
-              <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+              {/* Economic Scrap Market Valuation */}
+              <div className="p-4 rounded-2xl bg-dark-900/90 border border-white/[0.08] space-y-1.5">
                 <div className="flex items-center gap-2 text-emerald-400">
                   <IndianRupee className="w-4 h-4" />
-                  <span className="text-xs font-bold uppercase tracking-wide">Estimated Scrap Market Value</span>
+                  <span className="text-xs font-heading font-bold uppercase tracking-wider">Estimated Scrap Market Value</span>
                 </div>
-                <div className="flex items-baseline justify-between">
-                  <span className="text-xl font-mono font-bold text-slate-100">{result.recyclableValueInr}</span>
+                <div className="flex items-baseline justify-between pt-1">
+                  <span className="text-2xl font-heading font-black text-white">{result.recyclableValueInr}</span>
                   <span className="text-xs font-mono text-slate-400">{result.scrapMarketRatePerKg}</span>
                 </div>
               </div>
 
-              {/* Carbon Offset & ESG Impact */}
+              {/* Impact Badges Grid */}
               <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-                  <span className="text-slate-400 text-[10px] block">Recyclability</span>
-                  <span className={`font-mono font-bold text-sm ${result.recyclable ? 'text-emerald-400' : 'text-amber-400'}`}>
+                <div className="p-3.5 rounded-2xl bg-dark-900/70 border border-white/[0.06]">
+                  <span className="text-slate-400 text-[10px] font-mono block">Recyclability Status</span>
+                  <span className={`font-heading font-black text-sm block mt-0.5 ${result.recyclable ? 'text-emerald-400' : 'text-amber-400'}`}>
                     {result.recyclable ? '100% RECYCLABLE' : result.compostable ? 'COMPOSTABLE' : 'NON-RECYCLABLE'}
                   </span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-                  <span className="text-slate-400 text-[10px] block">CO₂ Carbon Offset</span>
-                  <span className="font-mono font-bold text-emerald-400 text-sm">+{result.carbonOffsetKg} kg CO₂</span>
+                <div className="p-3.5 rounded-2xl bg-dark-900/70 border border-white/[0.06]">
+                  <span className="text-slate-400 text-[10px] font-mono block">Carbon Offset Savings</span>
+                  <span className="font-heading font-black text-emerald-400 text-sm block mt-0.5">
+                    +{result.carbonOffsetKg} kg CO₂
+                  </span>
                 </div>
               </div>
 
-              {/* Smart Segregation Instructions */}
-              <div className="p-3.5 rounded-xl bg-slate-900/40 border border-slate-800 text-xs">
-                <span className="font-semibold text-slate-300 block mb-1">Disposal Protocol:</span>
+              {/* Protocol Instructions */}
+              <div className="p-4 rounded-2xl bg-dark-900/40 border border-white/[0.06] text-xs">
+                <span className="font-heading font-bold text-slate-200 block mb-1">Disposal & Processing Protocol:</span>
                 <p className="text-slate-400 text-[11px] leading-relaxed">{result.disposalAdvice}</p>
               </div>
 
             </div>
           ) : (
-            <div className="glass-panel rounded-2xl p-10 bg-slate-950/80 border border-slate-800 text-center flex flex-col items-center justify-center h-full text-slate-500">
-              <Camera className="w-12 h-12 mb-3 text-slate-600" />
-              <h3 className="text-sm font-semibold text-slate-300">Ready to Classify</h3>
+            <div className="glass-panel-luxury rounded-3xl p-12 border border-white/10 text-center flex flex-col items-center justify-center h-full text-slate-500 shadow-2xl">
+              <Camera className="w-14 h-14 mb-3 text-slate-600 animate-float" />
+              <h3 className="text-base font-heading font-bold text-slate-200">Awaiting Waste Input</h3>
               <p className="text-xs text-slate-400 max-w-xs mt-1">
-                Select a sample item or upload a waste photo to run the AI computer vision inference.
+                Select a sample item or upload a photograph to execute neural segregation inference.
               </p>
             </div>
           )}

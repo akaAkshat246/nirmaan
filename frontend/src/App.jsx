@@ -33,19 +33,17 @@ export default function App() {
 
   useEffect(() => {
     refreshData();
-    // Background polling every 10 seconds to sync IoT sensor simulation
     const interval = setInterval(refreshData, 10000);
     return () => clearInterval(interval);
   }, []);
 
-  // Handlers for Demo Actions
   const handleTriggerSurge = async (binId = 'BIN-104', targetFill = 91) => {
     setIsLoading(true);
     try {
       const res = await api.simulateBinSurge(binId, targetFill);
       if (res && res.bin) {
         setBins(prev => prev.map(b => b.id === binId ? res.bin : b));
-        setLastActionMessage(`🔥 Surge Triggered: ${res.bin.bin_code} escalated to ${res.bin.currentFill}% (CRITICAL)`);
+        setLastActionMessage(`🔥 Sensor Surge: ${res.bin.bin_code} escalated to ${res.bin.currentFill}% (CRITICAL)`);
       }
     } catch (err) {
       console.error(err);
@@ -74,7 +72,7 @@ export default function App() {
     try {
       await api.advanceTime(hours);
       await refreshData();
-      setLastActionMessage(`⏩ Simulation advanced by +${hours} hours.`);
+      setLastActionMessage(`⏩ Telemetry fast-forwarded by +${hours} hours.`);
     } catch (err) {
       console.error(err);
     } finally {
@@ -98,7 +96,7 @@ export default function App() {
   const criticalCount = bins.filter(b => b.status === 'CRITICAL' || b.currentFill >= 90).length;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between selection:bg-emerald-500 selection:text-slate-950">
+    <div className="min-h-screen bg-dark-950 text-slate-100 flex flex-col justify-between selection:bg-emerald-500 selection:text-dark-950">
       
       {/* 1. Header Navigation */}
       <div>
@@ -109,7 +107,7 @@ export default function App() {
           criticalCount={criticalCount}
         />
 
-        {/* 2. Interactive Demo Controller Bar */}
+        {/* 2. Interactive Simulator Cockpit */}
         <DemoControlBar
           onTriggerSurge={handleTriggerSurge}
           onAdvanceTime={handleAdvanceTime}
@@ -166,19 +164,21 @@ export default function App() {
         </main>
       </div>
 
-      {/* 4. Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/90 py-6 mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-500">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span className="text-slate-400 font-bold">NIRMAAN v1.0.0</span>
-            <span>• AI-First Municipal Waste Segregation & Collection System</span>
+      {/* 4. Luxury Footer */}
+      <footer className="border-t border-white/[0.08] bg-dark-900/80 backdrop-blur-xl py-6 mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-400">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-glow-sm animate-pulse"></span>
+            <span className="font-heading font-bold text-white text-sm">NIRMAAN AI Waste OS</span>
+            <span>• Municipal Telematics & DSA Route Optimization</span>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px]">
-            <span>FastAPI AI Port: 8000</span>
-            <span>Express API Port: 5000</span>
-            <span>Vite UI Port: 5173</span>
+          <div className="flex items-center gap-4 text-[11px] text-slate-500">
+            <span>FastAPI: 8000</span>
+            <span>•</span>
+            <span>Express: 5000</span>
+            <span>•</span>
+            <span>Vite: 5173</span>
           </div>
         </div>
       </footer>
