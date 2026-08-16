@@ -123,17 +123,6 @@ Open your browser at **`http://localhost:5173`**.
 
 ---
 
-## 🏆 The 5-Minute Hackathon Demo Script
-
-1. **0:00 – 0:45 (Problem & Overview)**: Open the **Command Center**. Show the vector city map with live IoT smart bins across sectors.
-2. **0:45 – 1:30 (The Sensor Surge Demo)**: Click the top-bar demo button **`🔥 Surge Bin #104 (68% → 91%)`**. Watch the bin turn 🔴 **CRITICAL** with an alert banner.
-3. **1:30 – 2:30 (AI Prediction & DSA Routing)**: Open **DSA Route Optimizer**. Explain how the **Binary Max-Heap** ranked Bin #104 to Rank #1 and how **Dijkstra's Algorithm** synthesized the shortest collection route.
-4. **2:30 – 3:45 (Computer Vision Waste Scan)**: Open **AI Waste Vision**. Upload or select a plastic bottle; demonstrate instant bounding box, 95.8% confidence, ₹2.50 scrap value, and confetti celebration.
-5. **3:45 – 4:30 (Hotspot Early Warning)**: Open **Hotspot Forecast**. Show tomorrow's 87% risk prediction for Market Area and click *Deploy Proactive Compactor Truck*.
-6. **4:30 – 5:00 (ESG Impact & Scalability)**: Open **Analytics & ESG** to show the 4.7h vs 8.2h turnaround comparison and carbon offset credits.
-
----
-
 ## 🛠️ API Reference
 
 | Method | Endpoint | Description |
@@ -146,9 +135,3 @@ Open your browser at **`http://localhost:5173`**.
 | `GET` | `/api/hotspots` | Fetch tomorrow's municipal hotspot forecasts |
 | `POST` | `/api/reports` | Submit citizen grievance with auto AI severity check |
 | `GET` | `/api/analytics` | Fetch waste composition and ESG impact metrics |
-
----
-
-## 👥 Team Responsibilities (2-Person Setup)
-- **Person 1 (AI + Backend)**: Computer vision classification, overflow prediction, Express REST API, IoT sensor generator.
-- **Person 2 (Frontend + DSA)**: Command Center dashboard, interactive vector GIS map, Dijkstra graph solver, Priority Queue ranking UI.
