@@ -1,0 +1,21 @@
+{
+  "name": "nirmaan-monorepo",
+  "version": "1.0.0",
+  "description": "NIRMAAN — AI Waste Collection & Segregation System (Monorepo)",
+  "private": true,
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:ai": "cd ai && python main.py",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+  },
+  "keywords": [
+    "ai-waste-management",
+    "dijkstra-routing",
+    "smart-bins",
+    "computer-vision",
+    "hackathon-winner"
+  ],
+  "author": "NIRMAAN Team",
+  "license": "MIT"
+}

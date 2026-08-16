@@ -1,0 +1,39 @@
+{
+  "depot": {
+    "id": "DEPOT",
+    "name": "Central Municipal Depot Hub",
+    "sector": "Industrial Sector 1",
+    "x": 120,
+    "y": 480,
+    "lat": 28.6139,
+    "lng": 77.2090
+  },
+  "nodes": [
+    { "id": "DEPOT", "name": "Central Depot", "sector": "Industrial", "x": 120, "y": 480, "lat": 28.6139, "lng": 77.2090 },
+    { "id": "NODE_A", "name": "Commercial Market Square", "sector": "Market Sector 4", "x": 260, "y": 180, "lat": 28.6350, "lng": 77.2250 },
+    { "id": "NODE_B", "name": "City Tech Park East", "sector": "IT Hub Sector 18", "x": 520, "y": 140, "lat": 28.6420, "lng": 77.2600 },
+    { "id": "NODE_C", "name": "Greenfield University Campus", "sector": "Knowledge Park", "x": 760, "y": 200, "lat": 28.6380, "lng": 77.3000 },
+    { "id": "NODE_D", "name": "Heritage Old Town Bazaar", "sector": "Old City Sector 2", "x": 300, "y": 380, "lat": 28.6180, "lng": 77.2300 },
+    { "id": "NODE_E", "name": "Metro Transit Interchange", "sector": "Central Sector 7", "x": 500, "y": 350, "lat": 28.6200, "lng": 77.2550 },
+    { "id": "NODE_F", "name": "Lakeview Residency Colony", "sector": "Residential Zone 12", "x": 720, "y": 360, "lat": 28.6190, "lng": 77.2900 },
+    { "id": "NODE_G", "name": "South Extension Food Court", "sector": "Commercial Sector 9", "x": 280, "y": 560, "lat": 28.5950, "lng": 77.2280 },
+    { "id": "NODE_H", "name": "Civic Hospital & Health Enclave", "sector": "Medical Sector 15", "x": 510, "y": 540, "lat": 28.5980, "lng": 77.2580 },
+    { "id": "NODE_I", "name": "Eco Botanical Park & Riverfront", "sector": "Green Belt Sector 21", "x": 740, "y": 520, "lat": 28.6010, "lng": 77.2880 }
+  ],
+  "edges": [
+    { "from": "DEPOT", "to": "NODE_D", "distance": 3.8, "roadType": "Highway", "avgSpeed": 45 },
+    { "from": "DEPOT", "to": "NODE_G", "distance": 2.9, "roadType": "Arterial", "avgSpeed": 35 },
+    { "from": "NODE_A", "to": "NODE_B", "distance": 4.5, "roadType": "Avenue", "avgSpeed": 30 },
+    { "from": "NODE_A", "to": "NODE_D", "distance": 3.2, "roadType": "Market Road", "avgSpeed": 20 },
+    { "from": "NODE_B", "to": "NODE_C", "distance": 3.9, "roadType": "Expressway", "avgSpeed": 50 },
+    { "from": "NODE_B", "to": "NODE_E", "distance": 3.4, "roadType": "Main Street", "avgSpeed": 35 },
+    { "from": "NODE_C", "to": "NODE_F", "distance": 2.8, "roadType": "Campus Road", "avgSpeed": 25 },
+    { "from": "NODE_D", "to": "NODE_E", "distance": 3.1, "roadType": "Central Ave", "avgSpeed": 30 },
+    { "from": "NODE_D", "to": "NODE_G", "distance": 3.6, "roadType": "South Cross", "avgSpeed": 28 },
+    { "from": "NODE_E", "to": "NODE_F", "distance": 3.5, "roadType": "Outer Link", "avgSpeed": 40 },
+    { "from": "NODE_E", "to": "NODE_H", "distance": 2.7, "roadType": "Hospital Rd", "avgSpeed": 30 },
+    { "from": "NODE_F", "to": "NODE_I", "distance": 3.0, "roadType": "Greenway", "avgSpeed": 35 },
+    { "from": "NODE_G", "to": "NODE_H", "distance": 3.3, "roadType": "South Bypass", "avgSpeed": 38 },
+    { "from": "NODE_H", "to": "NODE_I", "distance": 3.7, "roadType": "Riverfront Dr", "avgSpeed": 40 }
+  ]
+}
